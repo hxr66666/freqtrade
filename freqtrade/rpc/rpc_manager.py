@@ -44,6 +44,12 @@ class RPCManager:
             from freqtrade.rpc.webhook import Webhook
 
             self.registered_modules.append(Webhook(self._rpc, config))
+            
+        if config.get("feishu", {}).get("enabled", False):
+            logger.info("Enabling rpc.feishu ...")
+            from freqtrade.rpc.feishu import Feishu
+
+            self.registered_modules.append(Feishu(self._rpc, config))
 
         # Enable local rest api server for cmd line control
         if config.get("api_server", {}).get("enabled", False):
